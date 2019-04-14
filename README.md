@@ -24,12 +24,93 @@ Formula formula = new Formula() {
         return sqrt(a * 100);
     }
 };
-// 위 코드에서 오버라이딩 하였기 때문에 사용 가능 
-formula.calculate(100);     // 100.0
+// 위 코드에서 오버라이딩 하였기 때문에 사용 가능
+formula.calculate(100);
 // 인터페이스 클래스에서 sqrt 메소드를 default 키워드를 통해 선언했기 때문에 
 // 인터페이스 구현 클래스에서 sqrt 메소드를 오버라이딩 하여 구현하지 않아도 즉시 사용 가능
-formula.sqrt(16);           // 4.0
+formula.sqrt(16);
 ````
+````
+[실행 결과]
+100.0
+4.0
+````
+
+
+## 2. 람다식
+
+### 람다식이란
+람다식(Lambda expression)은 메서드를 하나의 '식(expression)'으로 표현한 것으로 메서드를 람다식으로 표현하면 메서드의 이름과 반환값이 없어지므로, 람다식을 '익명 함수(anonymous function)'이라고도 함
+
+
+#### 일반 메소드 사용법
+```` JAVA
+[반환 타입] 메소드명 (매개변수 선언) {
+    문장 
+}
+````
+
+#### 람다식 사용법
+```` JAVA
+(매개변수 선언) -> {
+    문장 
+}
+````
+
+#### 반환값이 있는 람다식 사용법
+```` JAVA
+// 변경 전 
+(int a, int b) -> {
+    return a > b ? a : b;
+}
+
+// 변경 후 
+// 1. 반환값이 있는 메소드의 경우, return문 대신 '식(expression)'으로 대신 할 수 있음
+// 2. 식의 연산 결과가 자동으로 반환됨
+// 3. '문장(statement)'이 아닌 '식(expression)'이므로 끝에 ';'을 붙이지 않음
+(int a, int b) -> a > b ? a : b
+````
+
+#### 매개변수 타입이 생략된 람다식
+```` JAVA
+// 람다식에 선언된 매개변수 타입은 추론이 가능한 경우 생략 가능하며, 대부분의 경우 생략 가능
+(a, b) -> a > b ? a : b
+````
+
+#### 매개변수가 1개인 경우 람다식
+```` JAVA
+// 변경 전
+(a) -> a * a
+// 변경 후
+// 매개변수가 1개인 경우, 괄호() 생략 가능
+a -> a * a (ok)
+
+// 변경 전
+(int a) -> a * a 
+// 변경 후
+// 단, 매개변수의 타입이 선언되어 있는 경우 괄호() 생략 불가능
+int a -> a * a (error)
+````
+
+#### 중괄호 안의 문장이 1개인 경우 람다식
+```` JAVA
+// 변경 전
+(String name, int age) -> {
+  System.out.println("name: " + name ", age:" + age);
+}
+// 변경 후
+// 중괄호안의 문장이 하나인 경우, 중괄호{} 생략 가능
+(String name, int age) ->
+  System.out.println("name: " + name ", age:" + age);
+````
+
+#### 중괄호{}안의 문장이 return문일 경우 람다식
+```` JAVA
+(int a, int b) -> { return a > b ? a : b;} // ok
+// 괄호{}안의 문장이 return문일 경우, 괄호{} 생략 불가
+(int a, int b) -> return a > ? a : b       // error
+````
+
 
 ## 3. 스트림
 
