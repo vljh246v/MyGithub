@@ -1,4 +1,37 @@
-## 1. 스트림
+## 1. 인터페이스 Default Method 
+
+### Default Method란 
+Java 8부터 추가된 기능으로 default 키워드를 사용하여 인터페이스에 비추상적인 메소드를 구현하는 것으로 Extension Methods라고도 함
+
+#### JAVA 8 - 인터페이스 클래스 
+````JAVA 
+interface Formula {
+    double calculate(int a);
+
+    // default 키워드를 통해 메소드를 인터페이스 클래스 내부에서 구현 가능
+    default double sqrt(int a) {
+        return Math.sqrt(a);
+    }
+}
+````
+
+#### JAVA 8 - 인터페이스 구현 클래스
+````JAVA 
+// 익명 객체를 통해 calculate 메소드는 오버라이딩 하여 구현하여 생성
+Formula formula = new Formula() {
+    @Override
+    public double calculate(int a) {
+        return sqrt(a * 100);
+    }
+};
+// 위 코드에서 오버라이딩 하였기 때문에 사용 가능 
+formula.calculate(100);     // 100.0
+// 인터페이스 클래스에서 sqrt 메소드를 default 키워드를 통해 선언했기 때문에 
+// 인터페이스 구현 클래스에서 sqrt 메소드를 오버라이딩 하여 구현하지 않아도 즉시 사용 가능
+formula.sqrt(16);           // 4.0
+````
+
+## 3. 스트림
 
 ### 스트림이란
 스트림은 반복자로써 컬렉션(배열 포함)의 요소를 하나씩 참조해서 람다식으로 처리할 수 있는 반복자
