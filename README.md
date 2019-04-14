@@ -1,6 +1,6 @@
 # MyGithub
 
-```
+```JAVA
 interface Formula {
     double calculate(int a);
 
