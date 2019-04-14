@@ -1,5 +1,6 @@
 # MyGithub
 
+```java
 interface Formula {
     double calculate(int a);
 
@@ -7,3 +8,4 @@ interface Formula {
         return Math.sqrt(a);
     }
 }
+```
