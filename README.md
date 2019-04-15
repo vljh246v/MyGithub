@@ -40,94 +40,66 @@ formula.sqrt(16);
 ## 2. 람다식
 
 ### 람다식이란
-람다식(Lambda expression)은 메서드를 하나의 '식(expression)'으로 표현한 것으로 메서드를 람다식으로 표현하면 메서드의 이름과 반환값이 없어지므로, 람다식을 '익명 함수(anonymous function)'이라고도 함
+람다식(Lambda expression)은 메소드를 하나의 '식(expression)'으로 표현한 것으로 메서드를 람다식으로 표현하면 메소드의 이름과 반환값이 없어지므로, 람다식을 '익명 함수(anonymous function)'이라고도 함
 
 
 #### 일반 메소드 사용법
 ```` JAVA
 [반환 타입] 메소드명 (매개변수 선언) {
-    문장 
+    함수 몸체 
+}
+
+int min(int x, int y) {
+    return x < y ? x : y;
 }
 ````
 
 #### 람다식 사용법
 ```` JAVA
 (매개변수 선언) -> {
-    문장 
+    함수 몸체 
+}
+
+(x, y) -> {
+    x < y ? x : y;
 }
 ````
 
-#### 반환값이 있는 람다식 사용법
+### 람다식 사용 시 유의사항
+1. 매개변수의 타입을 추론할 수 있는 경우, 타입을 생략 가능
+2. 매개변수가 하나인 경우, 괄호() 생략 가능
+3. 함수의 몸체가 하나의 명령문만으로 이루어진 경우, 중괄호{} 생략 가능 (이때 세미콜론(;)은 붙이지 않음)
+4. 함수의 몸체가 하나의 return 문으로만 이루어진 경우, 중괄호{} 생략 불가
+5. return문 대신 표현식을 사용할 수 있으며, 이때 반환값은 표현식의 결괏값 (이때 세미콜론(;)은 붙이지 않음)
+
+#### 함수형 인터페이스(functional interface)
 ```` JAVA
-// 변경 전 
-(int a, int b) -> {
-    return a > b ? a : b;
+// 람다 표현식을 하나의 변수에 대입할 때, 사용하는 참조 변수의 타입을 함수형 인터페이스라고 함
+참조변수의타입  참조변수의이름 = 람다 표현식
+````
+
+### 함수형 인터페이스 명시 
+```` JAVA
+// 1. 함수형 인터페이스는 추상 클래스와는 달리, 단 하나의 추상 메소드만을 가질 수 있음
+// 2. 아래와 같은 어노테이션을 사용하여 함수형 인터페이스 명시
+// 3. 함수형 인터페이스에 두 개 이상의 메소드가 선언되면 오류 발생
+@FunctionalInterface
+````
+
+### 함수형 인터페이스 예제
+```` JAVA
+@FunctionalInterface
+interface Calc { // 함수형 인터페이스의 선언
+    public int min(int x, int y);
 }
-
-// 변경 후 
-// 1. 반환값이 있는 메소드의 경우, return문 대신 '식(expression)'으로 대신 할 수 있음
-// 2. 식의 연산 결과가 자동으로 반환됨
-// 3. '문장(statement)'이 아닌 '식(expression)'이므로 끝에 ';'을 붙이지 않음
-(int a, int b) -> a > b ? a : b
-````
-
-#### 매개변수 타입이 생략된 람다식 사용법
-```` JAVA
-// 람다식에 선언된 매개변수 타입은 추론이 가능한 경우 생략 가능하며, 대부분의 경우 생략 가능
-(a, b) -> a > b ? a : b
-````
-
-#### 매개변수가 1개인 경우 람다식 사용법
-```` JAVA
-// 변경 전
-(a) -> a * a
-// 변경 후
-// 매개변수가 1개인 경우, 괄호() 생략 가능
-a -> a * a (ok)
-
-// 변경 전
-(int a) -> a * a 
-// 변경 후
-// 단, 매개변수의 타입이 선언되어 있는 경우 괄호() 생략 불가능
-int a -> a * a (error)
-````
-
-#### 중괄호{} 안의 문장이 1개인 경우 람다식 사용법
-```` JAVA
-// 변경 전
-(String name, int age) -> {
-  System.out.println("name: " + name ", age:" + age);
-}
-// 변경 후
-// 중괄호안의 문장이 하나인 경우, 중괄호{} 생략 가능
-(String name, int age) ->
-  System.out.println("name: " + name ", age:" + age);
-````
-
-#### 중괄호{}안의 문장이 return문일 경우 람다식 사용법
-```` JAVA
-(int a, int b) -> { return a > b ? a : b;} // ok
-// 괄호{}안의 문장이 return문일 경우, 괄호{} 생략 불가
-(int a, int b) -> return a > ? a : b       // error
-````
-
-#### 익명 클래스에 포함되는 람다식
-```` JAVA
-(int a, int b) -> a > b ? a : b
-
-// 위 람다식 
-new Object() {
-  int max(int a, int b) {
-    return a > b ? a : b;
+public class Lambda {
+public static void main(String[] args){
+        Calc minNum = (x, y) -> x < y ? x : y; // 추상 메소드의 구현
+        System.out.println(minNum.min(3, 4));  // 함수형 인터페이스의 사용
     }
 }
 ````
 
-#### 람다식으로 정의된 메서드를 호출하기 위한 방법
-```` JAVA
-// 아래와 같이 참조 변수에 저장 후 사용해야 함
-타입 function = (int a, int b) -> a > b ? a : b;
-````
 
 ## 3. 스트림
 
