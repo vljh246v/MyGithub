@@ -111,6 +111,23 @@ int a -> a * a (error)
 (int a, int b) -> return a > ? a : b       // error
 ````
 
+#### 익명 클래스에 포함되는 람다식
+```` JAVA
+(int a, int b) -> a > b ? a : b
+
+// 위 람다식 
+new Object() {
+  int max(int a, int b) {
+    return a > b ? a : b;
+    }
+}
+````
+
+#### 람다식으로 정의된 메서드를 호출하기 위한 방법
+```` JAVA
+// 아래와 같이 참조 변수에 저장 후 사용해야 함
+타입 function = (int a, int b) -> a > b ? a : b;
+````
 
 ## 3. 스트림
 
